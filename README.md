@@ -11,5 +11,5 @@ This project is now based on Raspberry. We want to make an object tracking car s
 ## Latest Update
 Diving into the readings. Building up some basic concepts, fundamental details and implementations about this thing we're gona make.
 
-##History Update
+## History Update
 [2020-03-27]Researching phase. Grabing anything that may be useful.
