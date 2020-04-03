@@ -1,0 +1,149 @@
+#include <Servo.h>  
+函数调用说明:调用servo.h里的库函数
+类似stdio.h是标准输入输出，常用的 printf scanf 这些输入输出函数 以及fopen fclose一系列的文件操作函数都是在这个头文件里面的，所以这个最常见
+
+#define STOP      0
+#define FORWARD   1
+#define BACKWARD  2
+#define TURNLEFT  3
+#define TURNRIGHT 4
+
+int leftMotor1 = 16;       定义16引脚为“leftmotor”
+int leftMotor2 = 17;      
+int rightMotor1 = 18;
+int rightMotor2 = 19;
+
+int trac1 = 10; //从车头方向的最右边开始排序 (传感器)
+int trac2 = 11;
+int trac3 = 12;
+int trac4 = 13;
+
+int leftPWM = 5;     不是很懂
+int rightPWM = 6;
+
+Servo myServo;  //舵机 应该和循迹没什么关系
+
+int inputPin=7;   // 定义超声波信号接收接口
+int outputPin=8;  // 定义超声波信号发出接口
+
+void setup() {
+  // put your setup code here, to run once:
+  //串口初始化
+  Serial.begin(9600);
+  //舵机引脚初始化
+  myServo.attach(9);
+  //测速引脚初始化   非必须作用
+我的理解:Mode为OUTPUT的都是需要单片机自己输出信号控制的pin引脚，INPUT的都是类似于传感器收集信息的
+  pinMode(leftMotor1, OUTPUT);
+配置引脚为输出或输出模式，它是一个无返回值函数，函数有两个参数pin和mode，pin参数表示所要配置的引脚，mode参数表示设置的模式—INPUT（输入）或OUTPUT（输出）。
+  pinMode(leftMotor2, OUTPUT);
+  pinMode(rightMotor1, OUTPUT);
+  pinMode(rightMotor2, OUTPUT);
+  pinMode(leftPWM, OUTPUT);
+  pinMode(rightPWM, OUTPUT);
+  //寻迹模块D0引脚初始化
+  pinMode(trac1, INPUT);
+  pinMode(trac2, INPUT);
+  pinMode(trac3, INPUT);
+  pinMode(trac4, INPUT);
+}
+
+void loop()
+{
+  // put your main code here, to run repeatedly:
+
+  tracing();   
+是一个函数，在下面有对这个函数的定义
+}
+void motorRun(int cmd,int value)
+       应该是在定义一个函数motorRun（）
+{
+  analogWrite(leftPWM, value);  
+// 设置P WM输出，即设置速度 analogWrite(pin, value) 通过PWM的方式在引脚上输出一个模拟量，较多的应用在LED亮度控制、电机转速控制等方面。该函数支持以下引脚：3、5、6、9、10、11。在Arduino控制板上引脚号旁边标注～的就是可用作PWM的引脚，analogWrite函数为无返回值函数，有两个参数pin和value，参数pin表示所要设置的引脚，只能选择函数支持的引脚；参数value表示PWM输出的占空比，范围在0～255的区间，对应的占空比为0%～100%
+  analogWrite(rightPWM, value);
+  switch(cmd)
+{
+判断cmd的状态：
+如果cmd==FOTWARD，输出“FORWARD/r/n”的状态，为LEFTMotor1设置为高电平，为leftMotor2设置为低电平，为RightMotor1设置为高电平，为RightMotor2设置为低电平
+    case FORWARD:
+      Serial.println("FORWARD"); //输出状态
+Arduino 的输出基本就用两个函数 print 和 println，区别在于后者比前者多了回车换行，Serial.println(data)
+从串行端口输出数据，跟随一个回车（'r'）和一个换行符（'n'）。这个函数所取得的值与 Serial.print()一样。
+      digitalWrite(leftMotor1, HIGH);
+其作用为设置引脚的输出电压为高\低电平。该函数无返回值，有两个参数pin和value，pin参数表示所要设置的引脚，value参数表示输出的电压，HIGH为高电平，LOW为低电平。
+在使用digitalWrite(pin, value)函数之前要将引脚设置为OUTPUT模式。
+例:pinMode(x, OUTPUT);
+其中x为引脚编号。pinMode函数用于设置引脚模式。
+
+      digitalWrite(leftMotor2, LOW);
+      digitalWrite(rightMotor1, HIGH);
+      digitalWrite(rightMotor2, LOW);
+      break;完成以上一系列函数后结束这个函数
+     case BACKWARD:
+      Serial.println("BACKWARD"); //输出状态
+      digitalWrite(leftMotor1, LOW);
+      digitalWrite(leftMotor2, HIGH);
+      digitalWrite(rightMotor1, LOW);
+      digitalWrite(rightMotor2, HIGH);
+      break;
+     case TURNLEFT:
+      Serial.println("TURN  LEFT"); //输出状态
+      digitalWrite(leftMotor1, HIGH);
+      digitalWrite(leftMotor2, LOW);
+      digitalWrite(rightMotor1, LOW);
+      digitalWrite(rightMotor2, HIGH);
+      break;
+     case TURNRIGHT:
+      Serial.println("TURN  RIGHT"); //输出状态
+      digitalWrite(leftMotor1, LOW);
+      digitalWrite(leftMotor2, HIGH);
+      digitalWrite(rightMotor1, HIGH);
+      digitalWrite(rightMotor2, LOW);
+      break;
+     default:
+如果以上情况都不是，输出STOP，所有电机输出为低电平
+      Serial.println("STOP"); //输出状态
+      digitalWrite(leftMotor1, LOW);
+      digitalWrite(leftMotor2, LOW);
+      digitalWrite(rightMotor1, LOW);
+      digitalWrite(rightMotor2, LOW);
+  }
+}
+void tracing()            tracing（）函数定义：上面void loop里面只有tracing这一个函数，arduino标准程序必须包含setup函数和loop函数，loop函数其实是一个循环，因为这个程序很简单没循环做的事情，所以循环函数为空，但必须要保留，这是arduino的语法规范。
+{
+  int data[4];               
+定义一个数组data[]包含四个数据，读取来自10.11.12.13引脚的信号存储到这个数组中，而10.11.12.13引脚连接的就是四个传感器，因此这个数组的功能就是记录四个传感器的信号，由下面的程序可以知道，通过对这几个传感器信号的判断，并根据这几个不同的情况作出不同的反应
+  data[0] = digitalRead(10);
+  data[1] = digitalRead(11);
+  data[2] = digitalRead(12);
+  data[3] = digitalRead(13);
+
+  if(!data[0] && !data[1] && !data[2] && !data[3])  //左右都没有检测到黑线
+  {
+    motorRun(FORWARD, 200);
+  }
+
+  if(data[0] || data[1])  //右边检测到黑线
+  {
+    motorRun(TURNRIGHT, 150);
+  }
+
+  if(data[2] || data[3])  //左边检测到黑线
+  {
+    motorRun(TURNLEFT, 150);
+  }
+
+  if(data[0] && data[3])  //左右都检测到黑线是停止
+  {
+    motorRun(STOP, 0);
+    while(1);
+  }
+
+  Serial.print(data[0]);
+  Serial.print("---");
+  Serial.print(data[1]);
+  Serial.print("---");
+  Serial.print(data[2]);
+  Serial.print("---");
+  Serial.println(data[3]);
+}
