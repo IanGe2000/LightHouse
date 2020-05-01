@@ -1,0 +1,615 @@
+pi@raspberrypi:~ $ cd tensorflow
+pi@raspberrypi:~/tensorflow $ CI_DOCKER_EXTRA_PARAMS="-e CI_BUILD_PYTHON=python3 -e CROSSTOOL_PYTHON_INCLUDE_PATH=/usr/include/python3.4" \
+>     tensorflow/tools/ci_build/ci_build.sh PI-PYTHON3 \
+>     tensorflow/tools/ci_build/pi/build_raspberry_pi.sh
+WORKSPACE: /home/pi/tensorflow
+CI_DOCKER_BUILD_EXTRA_PARAMS: 
+CI_DOCKER_EXTRA_PARAMS: -e CI_BUILD_PYTHON=python3 -e CROSSTOOL_PYTHON_INCLUDE_PATH=/usr/include/python3.4
+COMMAND: tensorflow/tools/ci_build/pi/build_raspberry_pi.sh
+CI_COMMAND_PREFIX: ./tensorflow/tools/ci_build/builds/with_the_same_user ./tensorflow/tools/ci_build/builds/configured pi-python3
+CONTAINER_TYPE: pi-python3
+BUILD_TAG: tf_ci
+  (docker container name will be tf_ci.pi-python3)
+
+Building container (tf_ci.pi-python3)...
+Sending build context to Docker daemon  934.9kB
+Step 1/14 : FROM ubuntu:16.04
+ ---> cf70bb6d9256
+Step 2/14 : LABEL maintainer="Jan Prach <jendap@google.com>"
+ ---> Using cache
+ ---> fb604c42b609
+Step 3/14 : COPY install/*.sh /install/
+ ---> Using cache
+ ---> 41532ec714a1
+Step 4/14 : RUN /install/install_bootstrap_deb_packages.sh
+ ---> Using cache
+ ---> 63a1df553af6
+Step 5/14 : RUN add-apt-repository -y ppa:openjdk-r/ppa &&     add-apt-repository -y ppa:george-edison55/cmake-3.x
+ ---> Using cache
+ ---> 64106774f90c
+Step 6/14 : RUN /install/install_deb_packages.sh
+ ---> Using cache
+ ---> b79d3f5e4b5a
+Step 7/14 : RUN /install/install_pip_packages.sh
+ ---> Running in 0b4fee4109e4
+--2020-04-27 00:54:02--  https://bootstrap.pypa.io/get-pip.py
+Resolving bootstrap.pypa.io (bootstrap.pypa.io)... 151.101.76.175, 2a04:4e42:12::175
+Connecting to bootstrap.pypa.io (bootstrap.pypa.io)|151.101.76.175|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1807342 (1.7M) [text/x-python]
+Saving to: 'get-pip.py'
+
+     0K .......... .......... .......... .......... ..........  2%  266K 6s
+    50K .......... .......... .......... .......... ..........  5%  517K 5s
+   100K .......... .......... .......... .......... ..........  8% 2.32M 3s
+   150K .......... .......... .......... .......... .......... 11% 2.87M 3s
+   200K .......... .......... .......... .......... .......... 14%  262K 3s
+   250K .......... .......... .......... .......... .......... 16% 1.82M 3s
+   300K .......... .......... .......... .......... .......... 19%  265K 3s
+   350K .......... .......... .......... .......... .......... 22% 12.8M 3s
+   400K .......... .......... .......... .......... .......... 25% 11.5M 2s
+   450K .......... .......... .......... .......... .......... 28%  193K 3s
+   500K .......... .......... .......... .......... .......... 31%  635K 2s
+   550K .......... .......... .......... .......... .......... 33% 2.24M 2s
+   600K .......... .......... .......... .......... .......... 36% 5.98M 2s
+   650K .......... .......... .......... .......... .......... 39%  576K 2s
+   700K .......... .......... .......... .......... .......... 42%  330K 2s
+   750K .......... .......... .......... .......... .......... 45% 9.70M 2s
+   800K .......... .......... .......... .......... .......... 48% 3.26M 1s
+   850K .......... .......... .......... .......... .......... 50% 1.09M 1s
+   900K .......... .......... .......... .......... .......... 53%  917K 1s
+   950K .......... .......... .......... .......... .......... 56%  475K 1s
+  1000K .......... .......... .......... .......... .......... 59%  422K 1s
+  1050K .......... .......... .......... .......... .......... 62%  478K 1s
+  1100K .......... .......... .......... .......... .......... 65%  263K 1s
+  1150K .......... .......... .......... .......... .......... 67%  405K 1s
+  1200K .......... .......... .......... .......... .......... 70%  270K 1s
+  1250K .......... .......... .......... .......... .......... 73%  269K 1s
+  1300K .......... .......... .......... .......... .......... 76%  148K 1s
+  1350K .......... .......... .......... .......... .......... 79%  115K 1s
+  1400K .......... .......... .......... .......... .......... 82%  103K 1s
+  1450K .......... .......... .......... .......... .......... 84% 51.2K 1s
+  1500K .......... .......... .......... .......... .......... 87% 69.8K 1s
+  1550K .......... .......... .......... .......... .......... 90%  108K 1s
+  1600K .......... .......... .......... .......... .......... 93% 55.5K 0s
+  1650K .......... .......... .......... .......... .......... 96% 93.8K 0s
+  1700K .......... .......... .......... .......... .......... 99% 42.3K 0s
+  1750K .......... ....                                       100%  488K=8.5s
+
+2020-04-27 00:54:12 (207 KB/s) - 'get-pip.py' saved [1807342/1807342]
+
+Collecting pip
+  Downloading pip-20.0.2-py2.py3-none-any.whl (1.4 MB)
+Collecting wheel
+  Downloading wheel-0.34.2-py2.py3-none-any.whl (26 kB)
+Installing collected packages: pip, wheel
+Successfully installed pip-20.0.2 wheel-0.34.2
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting pip
+  Using cached pip-20.0.2-py2.py3-none-any.whl (1.4 MB)
+Collecting wheel
+  Using cached wheel-0.34.2-py2.py3-none-any.whl (26 kB)
+Installing collected packages: pip, wheel
+Successfully installed pip-20.0.2 wheel-0.34.2
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting wheel==0.31.1
+  Downloading wheel-0.31.1-py2.py3-none-any.whl (41 kB)
+Installing collected packages: wheel
+  Attempting uninstall: wheel
+    Found existing installation: wheel 0.34.2
+    Uninstalling wheel-0.34.2:
+      Successfully uninstalled wheel-0.34.2
+Successfully installed wheel-0.31.1
+Collecting wheel==0.31.1
+  Using cached wheel-0.31.1-py2.py3-none-any.whl (41 kB)
+Installing collected packages: wheel
+  Attempting uninstall: wheel
+    Found existing installation: wheel 0.34.2
+    Uninstalling wheel-0.34.2:
+      Successfully uninstalled wheel-0.34.2
+Successfully installed wheel-0.31.1
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting setuptools==39.1.0
+  Downloading setuptools-39.1.0-py2.py3-none-any.whl (566 kB)
+Installing collected packages: setuptools
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 20.7.0
+    Uninstalling setuptools-20.7.0:
+      Successfully uninstalled setuptools-20.7.0
+Successfully installed setuptools-39.1.0
+Collecting setuptools==39.1.0
+  Using cached setuptools-39.1.0-py2.py3-none-any.whl (566 kB)
+Installing collected packages: setuptools
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 20.7.0
+    Uninstalling setuptools-20.7.0:
+      Successfully uninstalled setuptools-20.7.0
+Successfully installed setuptools-39.1.0
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Requirement already satisfied: virtualenv in /usr/lib/python2.7/dist-packages (15.0.1)
+Collecting virtualenv
+  Downloading virtualenv-20.0.18-py2.py3-none-any.whl (4.6 MB)
+Collecting filelock<4,>=3.0.0
+  Downloading filelock-3.0.12-py3-none-any.whl (7.6 kB)
+Collecting appdirs<2,>=1.4.3
+  Downloading appdirs-1.4.3-py2.py3-none-any.whl (12 kB)
+Collecting distlib<1,>=0.3.0
+  Downloading distlib-0.3.0.zip (571 kB)
+Collecting six<2,>=1.9.0
+  Downloading six-1.14.0-py2.py3-none-any.whl (10 kB)
+Collecting importlib-metadata<2,>=0.12; python_version < "3.8"
+  Downloading importlib_metadata-1.6.0-py2.py3-none-any.whl (30 kB)
+Collecting importlib-resources<2,>=1.0; python_version < "3.7"
+  Downloading importlib_resources-1.5.0-py2.py3-none-any.whl (21 kB)
+Collecting zipp>=0.5
+  Downloading zipp-1.2.0-py2.py3-none-any.whl (4.8 kB)
+Building wheels for collected packages: distlib
+  Building wheel for distlib (setup.py): started
+  Building wheel for distlib (setup.py): finished with status 'done'
+  Created wheel for distlib: filename=distlib-0.3.0-py3-none-any.whl size=335971 sha256=d8c52c965f4b1648fc0d0aa664be55738a0cfca00d07a22d0950e4323afbe255
+  Stored in directory: /root/.cache/pip/wheels/94/5a/46/d8f983987fd0c952afdb2db57ec55e7a7642e88db2d57ab674
+Successfully built distlib
+Installing collected packages: filelock, appdirs, distlib, six, zipp, importlib-metadata, importlib-resources, virtualenv
+Successfully installed appdirs-1.4.3 distlib-0.3.0 filelock-3.0.12 importlib-metadata-1.6.0 importlib-resources-1.5.0 six-1.14.0 virtualenv-20.0.18 zipp-1.2.0
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting six==1.12.0
+  Downloading six-1.12.0-py2.py3-none-any.whl (10 kB)
+Installing collected packages: six
+Successfully installed six-1.12.0
+Collecting six==1.12.0
+  Using cached six-1.12.0-py2.py3-none-any.whl (10 kB)
+Installing collected packages: six
+  Attempting uninstall: six
+    Found existing installation: six 1.14.0
+    Uninstalling six-1.14.0:
+      Successfully uninstalled six-1.14.0
+Successfully installed six-1.12.0
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting future>=0.17.1
+  Downloading future-0.18.2.tar.gz (829 kB)
+Building wheels for collected packages: future
+  Building wheel for future (setup.py): started
+  Building wheel for future (setup.py): finished with status 'done'
+  Created wheel for future: filename=future-0.18.2-py2-none-any.whl size=502612 sha256=54f09574b1a94e00967ce5f6e4acced3cd081542e30c82bd15ff2602ad1b97ac
+  Stored in directory: /root/.cache/pip/wheels/5f/11/0c/aad680baf5ef4fbcbab992c9f03e1130357e0c173a4fdabfff
+Successfully built future
+Installing collected packages: future
+Successfully installed future-0.18.2
+Collecting future>=0.17.1
+  Using cached future-0.18.2.tar.gz (829 kB)
+Building wheels for collected packages: future
+  Building wheel for future (setup.py): started
+  Building wheel for future (setup.py): finished with status 'done'
+  Created wheel for future: filename=future-0.18.2-py3-none-any.whl size=491096 sha256=57590f6b2cd915a063e82452b464407d6722ba195e44b407621ef3122273b7d9
+  Stored in directory: /root/.cache/pip/wheels/c4/f0/ae/d4689c4532d1f111462ed6a884a7767d502e511ee65f0d8e1b
+Successfully built future
+Installing collected packages: future
+Successfully installed future-0.18.2
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting absl-py
+  Downloading absl-py-0.9.0.tar.gz (104 kB)
+Requirement already satisfied, skipping upgrade: six in /usr/local/lib/python2.7/dist-packages (from absl-py) (1.12.0)
+Collecting enum34
+  Downloading enum34-1.1.10-py2-none-any.whl (11 kB)
+Building wheels for collected packages: absl-py
+  Building wheel for absl-py (setup.py): started
+  Building wheel for absl-py (setup.py): finished with status 'done'
+  Created wheel for absl-py: filename=absl_py-0.9.0-py2-none-any.whl size=117797 sha256=92a020db8b70d7dea3a1fe910a0119a84445c7f9f7d7285e8b89f1036417fad2
+  Stored in directory: /root/.cache/pip/wheels/37/83/b0/40d9e9f3d5a7021dfda2f3ea1f0088235679cd7747761c7b93
+Successfully built absl-py
+Installing collected packages: enum34, absl-py
+Successfully installed absl-py-0.9.0 enum34-1.1.10
+Collecting absl-py
+  Using cached absl-py-0.9.0.tar.gz (104 kB)
+Requirement already satisfied, skipping upgrade: six in /usr/local/lib/python3.5/dist-packages (from absl-py) (1.12.0)
+Building wheels for collected packages: absl-py
+  Building wheel for absl-py (setup.py): started
+  Building wheel for absl-py (setup.py): finished with status 'done'
+  Created wheel for absl-py: filename=absl_py-0.9.0-py3-none-any.whl size=117798 sha256=daba0ce1caa47ba80250ddcec806663b42b0ca20765ad23ead82324cb24d0b7a
+  Stored in directory: /root/.cache/pip/wheels/00/c0/fe/b499a8663e1697aa205f83a8b15a53a29dc4b9831643b0064b
+Successfully built absl-py
+Installing collected packages: absl-py
+Successfully installed absl-py-0.9.0
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting werkzeug==0.11.10
+  Downloading Werkzeug-0.11.10-py2.py3-none-any.whl (306 kB)
+Installing collected packages: werkzeug
+Successfully installed werkzeug-0.11.10
+Collecting werkzeug==0.11.10
+  Using cached Werkzeug-0.11.10-py2.py3-none-any.whl (306 kB)
+Installing collected packages: werkzeug
+Successfully installed werkzeug-0.11.10
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting bleach==2.0.0
+  Downloading bleach-2.0.0-py2.py3-none-any.whl (23 kB)
+Collecting html5lib>=0.99999999
+  Downloading html5lib-1.0.1-py2.py3-none-any.whl (117 kB)
+Requirement already satisfied, skipping upgrade: six in /usr/local/lib/python2.7/dist-packages (from bleach==2.0.0) (1.12.0)
+Collecting webencodings
+  Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Installing collected packages: webencodings, html5lib, bleach
+Successfully installed bleach-2.0.0 html5lib-1.0.1 webencodings-0.5.1
+Collecting bleach==2.0.0
+  Using cached bleach-2.0.0-py2.py3-none-any.whl (23 kB)
+Requirement already satisfied, skipping upgrade: six in /usr/local/lib/python3.5/dist-packages (from bleach==2.0.0) (1.12.0)
+Collecting html5lib>=0.99999999
+  Using cached html5lib-1.0.1-py2.py3-none-any.whl (117 kB)
+Collecting webencodings
+  Using cached webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Installing collected packages: webencodings, html5lib, bleach
+Successfully installed bleach-2.0.0 html5lib-1.0.1 webencodings-0.5.1
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting markdown==2.6.8
+  Downloading Markdown-2.6.8.tar.gz (307 kB)
+Building wheels for collected packages: markdown
+  Building wheel for markdown (setup.py): started
+  Building wheel for markdown (setup.py): finished with status 'done'
+  Created wheel for markdown: filename=Markdown-2.6.8-py2-none-any.whl size=161312 sha256=599eabe2f8a564212c702e7d32e0e1718093c3a257815df1d354fe71f7e30051
+  Stored in directory: /root/.cache/pip/wheels/1c/36/38/08cf40cdbe4392b8a1b2819d4ae2027fe885d4e5d3fe4637fe
+Successfully built markdown
+Installing collected packages: markdown
+Successfully installed markdown-2.6.8
+Collecting markdown==2.6.8
+  Using cached Markdown-2.6.8.tar.gz (307 kB)
+Building wheels for collected packages: markdown
+  Building wheel for markdown (setup.py): started
+  Building wheel for markdown (setup.py): finished with status 'done'
+  Created wheel for markdown: filename=Markdown-2.6.8-py3-none-any.whl size=163643 sha256=1bcd9707f21aa283abf20a390fdaa1230cafa299f1068c880a4a7f4b4ecaf268
+  Stored in directory: /root/.cache/pip/wheels/f3/0f/7b/89edc854a6c7a22e9c41df3ad54c6ce58a480f1a5b5f010489
+Successfully built markdown
+Installing collected packages: markdown
+Successfully installed markdown-2.6.8
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting protobuf==3.6.1
+  Downloading protobuf-3.6.1-py2.py3-none-any.whl (390 kB)
+Requirement already satisfied, skipping upgrade: six>=1.9 in /usr/local/lib/python2.7/dist-packages (from protobuf==3.6.1) (1.12.0)
+Requirement already satisfied, skipping upgrade: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf==3.6.1) (39.1.0)
+Installing collected packages: protobuf
+Successfully installed protobuf-3.6.1
+Collecting protobuf==3.6.1
+  Using cached protobuf-3.6.1-py2.py3-none-any.whl (390 kB)
+Requirement already satisfied, skipping upgrade: setuptools in /usr/local/lib/python3.5/dist-packages (from protobuf==3.6.1) (39.1.0)
+Requirement already satisfied, skipping upgrade: six>=1.9 in /usr/local/lib/python3.5/dist-packages (from protobuf==3.6.1) (1.12.0)
+Installing collected packages: protobuf
+Successfully installed protobuf-3.6.1
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting numpy==1.14.5
+  Downloading numpy-1.14.5.zip (4.9 MB)
+Building wheels for collected packages: numpy
+  Building wheel for numpy (setup.py): started
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): finished with status 'done'
+  Created wheel for numpy: filename=numpy-1.14.5-cp27-cp27mu-linux_armv7l.whl size=8552056 sha256=75f4dd75c61df79b965411e7e807150a5d81fc2bb8148474fdf6e1c9c2cb94f4
+  Stored in directory: /root/.cache/pip/wheels/72/63/c6/720dcc42fb5f610210bb10f68ff75355b73a49767f2308a20b
+Successfully built numpy
+Installing collected packages: numpy
+Successfully installed numpy-1.14.5
+Collecting numpy==1.14.5
+  Using cached numpy-1.14.5.zip (4.9 MB)
+Building wheels for collected packages: numpy
+  Building wheel for numpy (setup.py): started
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): still running...
+  Building wheel for numpy (setup.py): finished with status 'done'
+  Created wheel for numpy: filename=numpy-1.14.5-cp35-cp35m-linux_armv7l.whl size=8895649 sha256=f0cc11d2321936ed9682e1cdf36fc870907d6d3e45465e6350f064eb36170b56
+  Stored in directory: /root/.cache/pip/wheels/de/27/76/d5ca7f1780ba708f08153649d56036acf7ce713229a4aa37de
+Successfully built numpy
+Installing collected packages: numpy
+Successfully installed numpy-1.14.5
+DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Collecting scipy==1.2.2
+  Downloading scipy-1.2.2.tar.gz (23.1 MB)
+Building wheels for collected packages: scipy
+  Building wheel for scipy (setup.py): started
+  Building wheel for scipy (setup.py): finished with status 'error'
+  Running setup.py clean for scipy
+  ERROR: Command errored out with exit status 1:
+   command: /usr/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"'; __file__='"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' bdist_wheel -d /tmp/pip-wheel-ZZkzCg
+       cwd: /tmp/pip-install-AifcCc/scipy/
+  Complete output (124 lines):
+  Running from scipy source directory.
+  lapack_opt_info:
+  lapack_mkl_info:
+  customize UnixCCompiler
+    libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+    NOT AVAILABLE
+  
+  openblas_lapack_info:
+  customize UnixCCompiler
+  customize UnixCCompiler
+    libraries openblas not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+    NOT AVAILABLE
+  
+  openblas_clapack_info:
+  customize UnixCCompiler
+  customize UnixCCompiler
+    libraries openblas,lapack not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+    NOT AVAILABLE
+  
+  atlas_3_10_threads_info:
+  Setting PTATLAS=ATLAS
+  customize UnixCCompiler
+    libraries tatlas,tatlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries tatlas,tatlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries tatlas,tatlas not found in /usr/lib/arm-linux-gnueabihf
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+  <class 'numpy.distutils.system_info.atlas_3_10_threads_info'>
+    NOT AVAILABLE
+  
+  atlas_3_10_info:
+  customize UnixCCompiler
+    libraries satlas,satlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries satlas,satlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries satlas,satlas not found in /usr/lib/arm-linux-gnueabihf
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+  <class 'numpy.distutils.system_info.atlas_3_10_info'>
+    NOT AVAILABLE
+  
+  atlas_threads_info:
+  Setting PTATLAS=ATLAS
+  customize UnixCCompiler
+    libraries ptf77blas,ptcblas,atlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries ptf77blas,ptcblas,atlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries ptf77blas,ptcblas,atlas not found in /usr/lib/arm-linux-gnueabihf
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+  <class 'numpy.distutils.system_info.atlas_threads_info'>
+    NOT AVAILABLE
+  
+  atlas_info:
+  customize UnixCCompiler
+    libraries f77blas,cblas,atlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/local/lib
+  customize UnixCCompiler
+    libraries f77blas,cblas,atlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib
+  customize UnixCCompiler
+    libraries f77blas,cblas,atlas not found in /usr/lib/arm-linux-gnueabihf
+  customize UnixCCompiler
+    libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+  <class 'numpy.distutils.system_info.atlas_info'>
+    NOT AVAILABLE
+  
+  /usr/local/lib/python2.7/dist-packages/numpy/distutils/system_info.py:624: UserWarning:
+      Atlas (http://math-atlas.sourceforge.net/) libraries not found.
+      Directories to search for the libraries can be specified in the
+      numpy/distutils/site.cfg file (section [atlas]) or by setting
+      the ATLAS environment variable.
+    self.calc_info()
+  lapack_info:
+  customize UnixCCompiler
+    libraries lapack not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+    NOT AVAILABLE
+  
+  /usr/local/lib/python2.7/dist-packages/numpy/distutils/system_info.py:624: UserWarning:
+      Lapack (http://www.netlib.org/lapack/) libraries not found.
+      Directories to search for the libraries can be specified in the
+      numpy/distutils/site.cfg file (section [lapack]) or by setting
+      the LAPACK environment variable.
+    self.calc_info()
+  lapack_src_info:
+    NOT AVAILABLE
+  
+  /usr/local/lib/python2.7/dist-packages/numpy/distutils/system_info.py:624: UserWarning:
+      Lapack (http://www.netlib.org/lapack/) sources not found.
+      Directories to search for the sources can be specified in the
+      numpy/distutils/site.cfg file (section [lapack_src]) or by setting
+      the LAPACK_SRC environment variable.
+    self.calc_info()
+    NOT AVAILABLE
+  
+  Traceback (most recent call last):
+    File "<string>", line 1, in <module>
+    File "/tmp/pip-install-AifcCc/scipy/setup.py", line 492, in <module>
+      setup_package()
+    File "/tmp/pip-install-AifcCc/scipy/setup.py", line 488, in setup_package
+      setup(**metadata)
+    File "/usr/local/lib/python2.7/dist-packages/numpy/distutils/core.py", line 135, in setup
+      config = configuration()
+    File "/tmp/pip-install-AifcCc/scipy/setup.py", line 395, in configuration
+      raise NotFoundError(msg)
+  numpy.distutils.system_info.NotFoundError: No lapack/blas resources found.
+  ----------------------------------------
+  ERROR: Failed building wheel for scipy
+  ERROR: Command errored out with exit status 1:
+   command: /usr/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"'; __file__='"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' clean --all
+       cwd: /tmp/pip-install-AifcCc/scipy
+  Complete output (9 lines):
+  
+  `setup.py clean` is not supported, use one of the following instead:
+  
+    - `git clean -xdf` (cleans all files)
+    - `git clean -Xdf` (cleans all versioned files, doesn't touch
+                        files that aren't checked into the git repo)
+  
+  Add `--force` to your command to use it anyway if you must (unsupported).
+  
+  ----------------------------------------
+  ERROR: Failed cleaning build dir for scipy
+Failed to build scipy
+Installing collected packages: scipy
+    Running setup.py install for scipy: started
+    Running setup.py install for scipy: finished with status 'error'
+    ERROR: Command errored out with exit status 1:
+     command: /usr/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"'; __file__='"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-CudeXj/install-record.txt --single-version-externally-managed --compile --install-headers /usr/local/include/python2.7/scipy
+         cwd: /tmp/pip-install-AifcCc/scipy/
+    Complete output (133 lines):
+    
+    Note: if you need reliable uninstall behavior, then install
+    with pip instead of using `setup.py install`:
+    
+      - `pip install .`       (from a git repo or downloaded source
+                               release)
+      - `pip install scipy`   (last SciPy release on PyPI)
+    
+    
+    Running from scipy source directory.
+    lapack_opt_info:
+    lapack_mkl_info:
+    customize UnixCCompiler
+      libraries mkl_rt not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+      NOT AVAILABLE
+    
+    openblas_lapack_info:
+    customize UnixCCompiler
+    customize UnixCCompiler
+      libraries openblas not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+      NOT AVAILABLE
+    
+    openblas_clapack_info:
+    customize UnixCCompiler
+    customize UnixCCompiler
+      libraries openblas,lapack not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+      NOT AVAILABLE
+    
+    atlas_3_10_threads_info:
+    Setting PTATLAS=ATLAS
+    customize UnixCCompiler
+      libraries tatlas,tatlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries tatlas,tatlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries tatlas,tatlas not found in /usr/lib/arm-linux-gnueabihf
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+    <class 'numpy.distutils.system_info.atlas_3_10_threads_info'>
+      NOT AVAILABLE
+    
+    atlas_3_10_info:
+    customize UnixCCompiler
+      libraries satlas,satlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries satlas,satlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries satlas,satlas not found in /usr/lib/arm-linux-gnueabihf
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+    <class 'numpy.distutils.system_info.atlas_3_10_info'>
+      NOT AVAILABLE
+    
+    atlas_threads_info:
+    Setting PTATLAS=ATLAS
+    customize UnixCCompiler
+      libraries ptf77blas,ptcblas,atlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries ptf77blas,ptcblas,atlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries ptf77blas,ptcblas,atlas not found in /usr/lib/arm-linux-gnueabihf
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+    <class 'numpy.distutils.system_info.atlas_threads_info'>
+      NOT AVAILABLE
+    
+    atlas_info:
+    customize UnixCCompiler
+      libraries f77blas,cblas,atlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/local/lib
+    customize UnixCCompiler
+      libraries f77blas,cblas,atlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib
+    customize UnixCCompiler
+      libraries f77blas,cblas,atlas not found in /usr/lib/arm-linux-gnueabihf
+    customize UnixCCompiler
+      libraries lapack_atlas not found in /usr/lib/arm-linux-gnueabihf
+    <class 'numpy.distutils.system_info.atlas_info'>
+      NOT AVAILABLE
+    
+    /usr/local/lib/python2.7/dist-packages/numpy/distutils/system_info.py:624: UserWarning:
+        Atlas (http://math-atlas.sourceforge.net/) libraries not found.
+        Directories to search for the libraries can be specified in the
+        numpy/distutils/site.cfg file (section [atlas]) or by setting
+        the ATLAS environment variable.
+      self.calc_info()
+    lapack_info:
+    customize UnixCCompiler
+      libraries lapack not found in ['/usr/local/lib', '/usr/lib', '/usr/lib/arm-linux-gnueabihf']
+      NOT AVAILABLE
+    
+    /usr/local/lib/python2.7/dist-packages/numpy/distutils/system_info.py:624: UserWarning:
+        Lapack (http://www.netlib.org/lapack/) libraries not found.
+        Directories to search for the libraries can be specified in the
+        numpy/distutils/site.cfg file (section [lapack]) or by setting
+        the LAPACK environment variable.
+      self.calc_info()
+    lapack_src_info:
+      NOT AVAILABLE
+    
+    /usr/local/lib/python2.7/dist-packages/numpy/distutils/system_info.py:624: UserWarning:
+        Lapack (http://www.netlib.org/lapack/) sources not found.
+        Directories to search for the sources can be specified in the
+        numpy/distutils/site.cfg file (section [lapack_src]) or by setting
+        the LAPACK_SRC environment variable.
+      self.calc_info()
+      NOT AVAILABLE
+    
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+      File "/tmp/pip-install-AifcCc/scipy/setup.py", line 492, in <module>
+        setup_package()
+      File "/tmp/pip-install-AifcCc/scipy/setup.py", line 488, in setup_package
+        setup(**metadata)
+      File "/usr/local/lib/python2.7/dist-packages/numpy/distutils/core.py", line 135, in setup
+        config = configuration()
+      File "/tmp/pip-install-AifcCc/scipy/setup.py", line 395, in configuration
+        raise NotFoundError(msg)
+    numpy.distutils.system_info.NotFoundError: No lapack/blas resources found.
+    ----------------------------------------
+ERROR: Command errored out with exit status 1: /usr/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"'; __file__='"'"'/tmp/pip-install-AifcCc/scipy/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-CudeXj/install-record.txt --single-version-externally-managed --compile --install-headers /usr/local/include/python2.7/scipy Check the logs for full command output.
+The command '/bin/sh -c /install/install_pip_packages.sh' returned a non-zero code: 1
+ERROR: docker build failed. Dockerfile is at /home/pi/tensorflow/tensorflow/tools/ci_build/Dockerfile.pi-python3
+pi@raspberrypi:~/tensorflow $ 

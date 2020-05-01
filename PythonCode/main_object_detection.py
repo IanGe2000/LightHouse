@@ -15,7 +15,7 @@ from move import CarMove
 from ultrasound import CarUltrasound
 from infrared import CarInfrared
 from camera import CarCamera
-from detect import CarDetect
+from detect_new import CarDetect
 
 
 GPIO.setwarnings(False)  # Disable warning
@@ -40,12 +40,12 @@ if __name__ == '__main__':
         car = Car() 
 
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        video_out = cv2.VideoWriter('out.mp4', fourcc, 0.8, (640, 480))
+        video_out = cv2.VideoWriter('out.avi', fourcc, 0.8, (640, 480))    #算力限制：0.8调成别的更高的数值不起作用，树莓派端FPS计算结果显示不超过0.8
 
         ##### Prepare for the tensorflow object detection API  #####
         MODEL_NAME = 'ssdlite_mobilenet_v2_coco_2018_05_09'  # 使用的模型
-        PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'   
-        PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt') 
+        PATH_TO_CKPT = 'object_detection/' + MODEL_NAME + '/frozen_inference_graph.pb'   
+        PATH_TO_LABELS = 'object_detection/data/mscoco_label_map.pbtxt'  #os.path.join('data', 'mscoco_label_map.pbtxt') 
         NUM_CLASSES = 90 
         fileAlreadyExists = os.path.isfile(PATH_TO_CKPT) 
 
