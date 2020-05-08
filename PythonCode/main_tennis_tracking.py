@@ -35,8 +35,8 @@ if __name__ == '__main__':
     try:
         car = Car() 
 
-        # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        # video_out = cv2.VideoWriter('out.mp4', fourcc, 10, (640, 480))
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        video_out = cv2.VideoWriter('out.avi', fourcc, 10, (640, 480))
 
         VideoReturn = True  #  return the detected_frame, and transmit the frames to PC
         radius_mov_ave = 35

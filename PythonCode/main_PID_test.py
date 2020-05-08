@@ -6,7 +6,7 @@ from move import CarMove
 from ultrasound import CarUltrasound
 from infrared import CarInfrared
 from camera import CarCamera
-from detect import CarDetect
+from detect_new import CarDetect
 from PID_controller import PID
 
 GPIO.setwarnings(False)  # Disable warning
