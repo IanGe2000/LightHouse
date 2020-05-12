@@ -41,6 +41,8 @@ import tensorflow as tf
 from object_detection.core import standard_fields as fields
 from object_detection.utils import shape_utils
 
+ypmin, xpmin, ypmax, xpmax = 0,0,0,0 #GLOBAL
+
 _TITLE_LEFT_MARGIN = 10
 _TITLE_TOP_MARGIN = 10
 STANDARD_COLORS = [
@@ -812,6 +814,9 @@ def visualize_boxes_and_labels_on_image_array(
         if not skip_labels:
           if not agnostic_mode:
             if classes[i] in six.viewkeys(category_index):
+              #if classes[i] == 1:
+              #  print("I see a person.")
+              #print(classes[i])
               class_name = category_index[classes[i]]['name']
             else:
               class_name = 'N/A'
@@ -836,10 +841,16 @@ def visualize_boxes_and_labels_on_image_array(
         else:
           box_to_color_map[box] = STANDARD_COLORS[
               classes[i] % len(STANDARD_COLORS)]
+        #print(STANDARD_COLORS[1])
 
   # Draw all boxes onto image.
   for box, color in box_to_color_map.items():
+    global ypmin, xpmin, ypmax, xpmax
     ymin, xmin, ymax, xmax = box
+    if color == STANDARD_COLORS[1]:
+      ypmin, xpmin, ypmax, xpmax = box
+      #print(ypmin, xpmin, ypmax, xpmax)
+    #print(color)
     if instance_masks is not None:
       draw_mask_on_image_array(
           image,
@@ -871,7 +882,7 @@ def visualize_boxes_and_labels_on_image_array(
           radius=line_thickness / 2,
           use_normalized_coordinates=use_normalized_coordinates)
 
-  return image
+  return image, ypmin, xpmin, ypmax, xpmax
 
 
 def add_cdf_image_summary(values, name):

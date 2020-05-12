@@ -92,7 +92,7 @@ if __name__ == '__main__':
                         feed_dict={image_tensor: image_np_expanded})   # 使用API来Detect
                     
                     print('Done.  Visualizing..') 
-                    frame, ymin, xmin, ymax, xmax=vis_utils.visualize_boxes_and_labels_on_image_array(
+                    vis_utils.visualize_boxes_and_labels_on_image_array(
                             frame,
                             np.squeeze(boxes),
                             np.squeeze(classes).astype(np.int32),
@@ -101,43 +101,15 @@ if __name__ == '__main__':
                             use_normalized_coordinates=True,
                             line_thickness=8)   # 在frame上画框（检测结果）
 
-                    [ypmin, xpmin, ypmax, xpmax] = [0, 0, 0, 0]#初始化
-
-                    if [ymin, xmin, ymax, xmax] != [0, 0, 0, 0] :
-                        [ypmin, xpmin, ypmax, xpmax] = [ymin, xmin, ymax, xmax]
-                        print(ypmin, xpmin, ypmax, xpmax)
-                    
                     car.VideoTransmission(frame)  # 向PC传输视频帧
                     video_out.write(frame)
 
-                    ##参数设置
-                    turn_speed=30
-                    forward_speed=50
-                    back_speed=40
-                    #ypmin不管他 都是0
-                    #这个阈值可能太小 先试试效果吧
-                    if [ypmin, xpmin, ypmax, xpmax] == [0, 0, 0, 0]:
-                        car.brake()
-                    elif abs(ypmax-0.48) <= 0.07:
-                        if abs(xpmin-0.43) <= 0.05:
-                            print("我找到合适位置了")
-                            car.brake()
-                        elif (xpmin-0.43) < 0 : #左边
-                            print("人在左边")
-                            car.left(turn_speed)
-                        elif (xpmin-0.43) > 0 : #右边
-                            print("人在右边")
-                            car.right(turn_speed)
-                    elif (ypmax-0.48) <0 : #太远了
-                        car.forward(forward_speed)
-                    elif (ypmax-0.48) >0 : #太近了
-                        car.back(back_speed)
 
                     rawCapture.truncate(0)  # PiCamera必备
 
                     mfps = 1 / (time.time() - t_start)  # 计算FPS
                     print('FPS: ', mfps)
-
+            
 
     except KeyboardInterrupt:
         print("Measurement stopped by User")
