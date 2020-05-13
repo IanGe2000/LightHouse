@@ -91,8 +91,12 @@ if __name__ == '__main__':
                         [detection_boxes, detection_scores, detection_classes, num_detections], 
                         feed_dict={image_tensor: image_np_expanded})   # 使用API来Detect
                     
+                    [ypmin, xpmin, ypmax, xpmax] = [0, 0, 0, 0] #初始化
+                    [ymin, xmin, ymax, xmax] = [0,0,0,0]
+                    print("Main: initialized (line 94)")
+                    
                     print('Done.  Visualizing..') 
-                    frame, ymin, xmin, ymax, xmax=vis_utils.visualize_boxes_and_labels_on_image_array(
+                    frame, ypmin, xpmin, ypmax, xpmax=vis_utils.visualize_boxes_and_labels_on_image_array( #Visualization_utils: line 726
                             frame,
                             np.squeeze(boxes),
                             np.squeeze(classes).astype(np.int32),
@@ -101,11 +105,8 @@ if __name__ == '__main__':
                             use_normalized_coordinates=True,
                             line_thickness=8)   # 在frame上画框（检测结果）
 
-                    [ypmin, xpmin, ypmax, xpmax] = [0, 0, 0, 0]#初始化
-
-                    if [ymin, xmin, ymax, xmax] != [0, 0, 0, 0] :
-                        [ypmin, xpmin, ypmax, xpmax] = [ymin, xmin, ymax, xmax]
-                        print(ypmin, xpmin, ypmax, xpmax)
+                    if [ypmin, xpmin, ypmax, xpmax] != [0, 0, 0, 0] :
+                        print("Main: receive person at ",ypmin, xpmin, ypmax, xpmax)
                     else:
                         car.brake()
                     
@@ -113,9 +114,9 @@ if __name__ == '__main__':
                     video_out.write(frame)
 
                     ##参数设置
-                    turn_speed=30
-                    forward_speed=50
-                    back_speed=40
+                    turn_speed=36 #TO-DO: 调参
+                    forward_speed=30
+                    back_speed=30
                     #ypmin不管他 都是0
                     #这个阈值可能太小 先试试效果吧
                     if [ypmin, xpmin, ypmax, xpmax] == [0, 0, 0, 0]:
@@ -138,7 +139,7 @@ if __name__ == '__main__':
                     rawCapture.truncate(0)  # PiCamera必备
 
                     mfps = 1 / (time.time() - t_start)  # 计算FPS
-                    print('FPS: ', mfps)
+                    print('FPS: ', mfps, '\n')
 
 
     except KeyboardInterrupt:

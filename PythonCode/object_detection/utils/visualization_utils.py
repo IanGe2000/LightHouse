@@ -788,6 +788,12 @@ def visualize_boxes_and_labels_on_image_array(
   """
   # Create a display string (and color) for every box location, group any boxes
   # that correspond to the same location.
+  
+  #print("into Visual\'s function")
+  global ypmin, xpmin, ypmax, xpmax
+  [ypmin, xpmin, ypmax, xpmax] = [0,0,0,0] #初始化
+  print("Visualization: initialized (line 793)")
+
   box_to_display_str_map = collections.defaultdict(list)
   box_to_color_map = collections.defaultdict(str)
   box_to_instance_masks_map = {}
@@ -845,14 +851,17 @@ def visualize_boxes_and_labels_on_image_array(
 
   # Draw all boxes onto image.
   for box, color in box_to_color_map.items():
-    global ypmin, xpmin, ypmax, xpmax
+    #global ypmin, xpmin, ypmax, xpmax
+    #[ypmin, xpmin, ypmax, xpmax] = [0,0,0,0]
+    #print("Visualization: initialized")
     ymin, xmin, ymax, xmax = box
-    if color == STANDARD_COLORS[1]:
+    if color == STANDARD_COLORS[1]: #如果识别的框框颜色==人的框框的颜色，则识别的就是人
       ypmin, xpmin, ypmax, xpmax = box
-    else:
-      [ypmin, xpmin, ypmax, xpmax] = [0, 0, 0, 0]
       #print(ypmin, xpmin, ypmax, xpmax)
     #print(color)
+    else:                           #如果识别的框框颜色!=人的框框的颜色，那就不是人，不是人咱不要，相当于没有人，回归初始化
+        [ypmin, xpmin, ypmax, xpmax] = [0,0,0,0]
+        #print("Visualization: not person, reset to 0")
     if instance_masks is not None:
       draw_mask_on_image_array(
           image,
