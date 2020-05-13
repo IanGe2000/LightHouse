@@ -106,6 +106,8 @@ if __name__ == '__main__':
                     if [ymin, xmin, ymax, xmax] != [0, 0, 0, 0] :
                         [ypmin, xpmin, ypmax, xpmax] = [ymin, xmin, ymax, xmax]
                         print(ypmin, xpmin, ypmax, xpmax)
+                    else:
+                        car.brake()
                     
                     car.VideoTransmission(frame)  # 向PC传输视频帧
                     video_out.write(frame)
