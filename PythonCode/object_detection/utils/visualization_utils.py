@@ -849,6 +849,8 @@ def visualize_boxes_and_labels_on_image_array(
     ymin, xmin, ymax, xmax = box
     if color == STANDARD_COLORS[1]:
       ypmin, xpmin, ypmax, xpmax = box
+    else:
+      [ypmin, xpmin, ypmax, xpmax] = [0, 0, 0, 0]
       #print(ypmin, xpmin, ypmax, xpmax)
     #print(color)
     if instance_masks is not None:
