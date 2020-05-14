@@ -40,7 +40,7 @@ if __name__ == '__main__':
         car = Car() 
 
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        video_out = cv2.VideoWriter('out.avi', fourcc, 0.8, (640, 480))    #算力限制：0.8调成别的更高的数值不起作用，树莓派端FPS计算结果显示不超过0.8
+        video_out = cv2.VideoWriter('out.avi', fourcc, 0.1, (640, 480))    #算力限制：帧率调成别的更高的数值不起作用，树莓派端FPS计算结果显示不超过0.8
 
         ##### Prepare for the tensorflow object detection API  #####
         MODEL_NAME = 'ssdlite_mobilenet_v2_coco_2018_05_09'  # 使用的模型
@@ -92,7 +92,7 @@ if __name__ == '__main__':
                         feed_dict={image_tensor: image_np_expanded})   # 使用API来Detect
                     
                     [ypmin, xpmin, ypmax, xpmax] = [0, 0, 0, 0] #初始化
-                    [ymin, xmin, ymax, xmax] = [0,0,0,0]
+                    [ymin, xmin, ymax, xmax] = [0, 0, 0, 0]
                     print("Main: initialized (line 94)")
                     
                     print('Done.  Visualizing..') 
@@ -110,30 +110,42 @@ if __name__ == '__main__':
                     else:
                         car.brake()
                     
-                    car.VideoTransmission(frame)  # 向PC传输视频帧
-                    video_out.write(frame)
+                    #car.VideoTransmission(frame)  # 向PC传输视频帧
+                    #video_out.write(frame)
 
                     ##参数设置
-                    turn_speed=36 #TO-DO: 调参
-                    forward_speed=30
-                    back_speed=30
-                    #ypmin不管他 都是0
-                    #这个阈值可能太小 先试试效果吧
+                    turn_speed = 60
+                    turn_duration = 0.3
+                    forward_speed = 30
+                    back_speed = 30
+                    threshold_Y = 0.07
+                    threshold_X = 0.1
+
                     if [ypmin, xpmin, ypmax, xpmax] == [0, 0, 0, 0]:
                         car.brake()
-                    elif abs(ypmax-0.48) <= 0.07:
-                        if abs(xpmin-0.43) <= 0.05:
+                    elif abs(ypmax - 0.48) <= threshold_Y:
+                        if abs(xpmin - 0.43) <= threshold_X:
                             print("我找到合适位置了")
                             car.brake()
-                        elif (xpmin-0.43) < 0 : #左边
+                        elif (xpmin - 0.43) < 0 : #左边
                             print("人在左边")
                             car.left(turn_speed)
-                        elif (xpmin-0.43) > 0 : #右边
+                            t_car_start = time.time()
+                            interval = 0
+                            while interval < turn_duration:
+                              interval = time.time() - t_car_start
+                            car.brake()
+                        elif (xpmin - 0.43) > 0 : #右边
                             print("人在右边")
                             car.right(turn_speed)
-                    elif (ypmax-0.48) <0 : #太远了
+                            t_car_start = time.time()
+                            interval = 0
+                            while interval < turn_duration:
+                              interval = time.time() - t_car_start
+                            car.brake()
+                    elif (ypmax - 0.48) < 0 : #太远了
                         car.forward(forward_speed)
-                    elif (ypmax-0.48) >0 : #太近了
+                    elif (ypmax - 0.48) > 0 : #太近了
                         car.back(back_speed)
 
                     rawCapture.truncate(0)  # PiCamera必备
