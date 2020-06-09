@@ -8,6 +8,28 @@
 ## Initiation
 This project is now based on Raspberry. We want to make an object tracking car system that tracks the displacement of the user by constantly moving itself to maintain constant distance from the object. Along with this function, we could also add in functions such as obstacles-avoiding and IR-locating.
 
+## Framework
+```
+~/PythonCode
+  |
+  |__ 主功能包
+  |   |__ main_lane_tracking.py
+  |   |__ main_object_detection.py
+  |   |__ main_obstacle_avoidance.py
+  |
+  |
+  |__ 功能模块
+  |   |__ ultrasound.py (超声波检测)
+  |   |__ infrared.py (红外线检测)
+  |   |__ track.py (赛道检测)
+  |   |__ camera.py (摄像头)
+  |   |__ move.py (舵机移动)
+  |   |__ pc_receiver.py (电脑画面传输)
+  |
+  |
+  |__ object_detection (目标检测)
+      |__ visualization_utils (图形检测可视化)
+```
 ## Latest Update
 Maybe we can change Tensorflow API but we have no time to do that.  
 Hope someone can help us to continue this project.  
