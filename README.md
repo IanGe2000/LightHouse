@@ -33,6 +33,7 @@ This project is now based on Raspberry. We want to make an object tracking car s
 ## Latest Update
 Maybe we can change Tensorflow API but we have no time to do that.  
 Hope someone can help us to continue this project.  
+https://www.cnblogs.com/lingluan533/p/12605999.html  
 
 ## History Update
 [2020-06-09]Try to reduce frame rate but there is no much improvement.  
